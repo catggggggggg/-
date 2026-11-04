@@ -394,7 +394,7 @@
           ctx.lineWidth = 3;
           ctx.stroke();
 
-          // 発射される側（飛んでいく先端 = pt1）に赤丸を描画するように修正！
+          // 飛んでいく方向（狙う先端 = pt1）に赤丸を描画するように修正！
           ctx.beginPath();
           ctx.arc(pt1.x, pt1.y, 10, 0, Math.PI * 2);
           ctx.fillStyle = '#dc2626'; // red-600
@@ -470,7 +470,7 @@
           <header className="flex items-center justify-between p-3 bg-slate-900 border-b border-slate-800 shrink-0">
             <h1 className="text-sm font-bold text-slate-100 tracking-wide flex items-center gap-1.5">
               <span className="text-teal-400"><IconCrosshair /></span>
-              壁反射
+              モンストガイドマスター
             </h1>
             
             <div className="flex items-center gap-2">
