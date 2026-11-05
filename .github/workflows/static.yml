@@ -9,11 +9,11 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    body { overscroll-behavior: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    body { overscroll-behavior: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; background-color: #020617; }
     .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
   </style>
 </head>
-<body class="bg-slate-950">
+<body class="bg-slate-950 text-slate-200">
   <div id="root"></div>
   <script type="text/babel">
     const { useState, useRef, useEffect, useCallback } = React;
@@ -21,19 +21,20 @@
     // --- Icons ---
     const IconCrosshair = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>;
     const IconUpload = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
-    const IconHand = ({ size = 20 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/><path d="M6 11V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5"/></svg>;
+    const IconUnlock = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>;
+    const IconLock = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>;
     const IconRefresh = () => <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>;
     const IconTrash = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>;
     const IconCheck = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>;
     const IconUndo = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 14L4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11" /></svg>;
-    const IconRedo = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 14l5-5-5-5" /><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13" /></svg>;
     const IconSave = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>;
+    const IconWrench = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
 
     const App = () => {
       const [image, setImage] = useState(null);
-      const [startPoint, setStartPoint] = useState({ x: 195, y: 550 });
+      const [startPoint, setStartPoint] = useState({ x: 195, y: 500 });
       const [angle, setAngle] = useState(45);
-      const [isMoveMode, setIsMoveMode] = useState(false);
+      const [isMoveMode, setIsMoveMode] = useState(false); // true: ロック(ON), false: 解除(OFF)
 
       // App Settings
       const [maxBounces, setMaxBounces] = useState(3);
@@ -42,23 +43,20 @@
       const [showTrajectory, setShowTrajectory] = useState(true);
       const [showWallLine, setShowWallLine] = useState(true);
       const [lineColor, setLineColor] = useState('white');
+      const [warpSize, setWarpSize] = useState(25); // ワープの大きさ
 
       // Wall Settings
       const defaultWalls = { top: 19, bottom: 33, left: 5, right: 5 };
-      const tabletWalls = { top: 12, bottom: 18, left: 12, right: 12 };
+      const tabletWalls = { top: 24, bottom: 36, left: 14, right: 14 };
       const [wallPercents, setWallPercents] = useState(defaultWalls);
 
       // Obstacles & Warps
       const [obstacles, setObstacles] = useState([]);
-      const [previewObs, setPreviewObs] = useState(null);
+      const [warps, setWarps] = useState([]);
       const [obsMode, setObsMode] = useState('edit'); 
       const [selectedIds, setSelectedIds] = useState([]); 
-      const [warps, setWarps] = useState([]);
       const [obsType, setObsType] = useState('block');
-
       const [activeTab, setActiveTab] = useState('aim'); 
-      const [dragMode, setDragMode] = useState(null); 
-      const obsDragRef = useRef(null);
 
       // Save States
       const [saveName, setSaveName] = useState('');
@@ -66,13 +64,17 @@
         try { return JSON.parse(localStorage.getItem('monst_saved_stages') || '[]'); } catch (e) { return []; }
       });
 
-      // Undo / Redo History
+      // History
       const [history, setHistory] = useState([]);
       const [historyIndex, setHistoryIndex] = useState(-1);
       const isHistoryChange = useRef(false);
 
       const canvasRef = useRef(null);
       const fileInputRef = useRef(null);
+      
+      // Refs for immediate interaction state (fixes drag bugs)
+      const dragModeRef = useRef(null);
+      const obsDragRef = useRef(null);
 
       const canvasWidth = 390;
       const canvasHeight = 844;
@@ -94,27 +96,31 @@
       const viewWidth = viewBounds.right - viewBounds.left;
       const viewHeight = viewBounds.bottom - viewBounds.top;
 
-      // History Management
+      // 壁の設定が変わった際に、スタート地点が枠からはみ出さないよう自動補正する処理
+      useEffect(() => {
+        setStartPoint(prev => {
+          const clampedX = Math.max(bounds.left, Math.min(prev.x, bounds.right));
+          const clampedY = Math.max(bounds.top, Math.min(prev.y, bounds.bottom));
+          if (clampedX !== prev.x || clampedY !== prev.y) {
+            return { x: clampedX, y: clampedY };
+          }
+          return prev;
+        });
+      }, [bounds.left, bounds.right, bounds.top, bounds.bottom]);
+
       const pushHistory = useCallback(() => {
-        if (isHistoryChange.current) {
-          isHistoryChange.current = false;
-          return;
-        }
-        const state = { startPoint, angle, maxBounces, wallPercents, obstacles, warps };
+        if (isHistoryChange.current) { isHistoryChange.current = false; return; }
+        const state = { startPoint, angle, maxBounces, wallPercents, obstacles, warps, warpSize };
         setHistory(prev => {
           const next = prev.slice(0, historyIndex + 1);
           return [...next, state];
         });
         setHistoryIndex(prev => prev + 1);
-      }, [startPoint, angle, maxBounces, wallPercents, obstacles, warps, historyIndex]);
+      }, [startPoint, angle, maxBounces, wallPercents, obstacles, warps, warpSize, historyIndex]);
 
-      useEffect(() => {
-        if (history.length === 0) pushHistory();
-      }, [pushHistory, history.length]);
+      useEffect(() => { if (history.length === 0) pushHistory(); }, [pushHistory, history.length]);
 
-      const pushHistoryDebounced = () => {
-        setTimeout(pushHistory, 100);
-      };
+      const pushHistoryDebounced = () => { setTimeout(pushHistory, 100); };
 
       const handleUndo = () => {
         if (historyIndex > 0) {
@@ -126,34 +132,14 @@
           setWallPercents(prev.wallPercents);
           setObstacles(prev.obstacles);
           setWarps(prev.warps);
+          if (prev.warpSize) setWarpSize(prev.warpSize);
           setHistoryIndex(historyIndex - 1);
-        }
-      };
-
-      const handleRedo = () => {
-        if (historyIndex < history.length - 1) {
-          isHistoryChange.current = true;
-          const next = history[historyIndex + 1];
-          setStartPoint(next.startPoint);
-          setAngle(next.angle);
-          setMaxBounces(next.maxBounces);
-          setWallPercents(next.wallPercents);
-          setObstacles(next.obstacles);
-          setWarps(next.warps);
-          setHistoryIndex(historyIndex + 1);
         }
       };
 
       const handleSaveStage = () => {
         if (!saveName.trim()) return;
-        const newStage = {
-          id: Date.now(),
-          name: saveName.trim(),
-          obstacles,
-          warps,
-          wallPercents,
-          date: new Date().toLocaleDateString('ja-JP')
-        };
+        const newStage = { id: Date.now(), name: saveName.trim(), obstacles, warps, wallPercents, warpSize, date: new Date().toLocaleDateString('ja-JP') };
         const updated = [newStage, ...savedStages];
         setSavedStages(updated);
         localStorage.setItem('monst_saved_stages', JSON.stringify(updated));
@@ -164,6 +150,7 @@
         setObstacles(stage.obstacles || []);
         setWarps(stage.warps || []);
         if (stage.wallPercents) setWallPercents(stage.wallPercents);
+        if (stage.warpSize) setWarpSize(stage.warpSize);
         setTimeout(pushHistory, 100);
       };
 
@@ -200,151 +187,146 @@
 
       // --- Interaction Start ---
       const startInteraction = (coords) => {
+        dragModeRef.current = null;
+        obsDragRef.current = null;
         if (!coords) return;
+
+        // スタート地点（白丸）は常に最優先で動かせるようにする
+        if (Math.hypot(coords.x - startPoint.x, coords.y - startPoint.y) < 60) {
+          dragModeRef.current = 'origin';
+          return;
+        }
 
         if (activeTab === 'obstacles') {
           if (obsMode === 'delete') {
             const hitObs = obstacles.find(o => coords.x >= o.x && coords.x <= o.x + o.w && coords.y >= o.y && coords.y <= o.y + o.h);
-            if (hitObs) {
-              setSelectedIds(prev => prev.includes(hitObs.id) ? prev.filter(id => id !== hitObs.id) : [...prev, hitObs.id]);
-              return;
-            }
-            const hitWarp = warps.find(w => Math.hypot(coords.x - w.in.x, coords.y - w.in.y) < 25 || Math.hypot(coords.x - w.out.x, coords.y - w.out.y) < 25);
-            if (hitWarp) {
-              setSelectedIds(prev => prev.includes(hitWarp.id) ? prev.filter(id => id !== hitWarp.id) : [...prev, hitWarp.id]);
-              return;
-            }
+            if (hitObs) { setSelectedIds(prev => prev.includes(hitObs.id) ? prev.filter(id => id !== hitObs.id) : [...prev, hitObs.id]); return; }
+            const hitWarp = warps.find(w => Math.hypot(coords.x - w.in.x, coords.y - w.in.y) < warpSize || Math.hypot(coords.x - w.out.x, coords.y - w.out.y) < warpSize);
+            if (hitWarp) { setSelectedIds(prev => prev.includes(hitWarp.id) ? prev.filter(id => id !== hitWarp.id) : [...prev, hitWarp.id]); return; }
+            
+            // 何もヒットしなかった場合は選択解除
+            setSelectedIds([]);
             return;
           }
 
           if (obsMode === 'edit') {
-            if (previewObs) {
-              const cornerSize = 24; 
-              const corners = [
-                { type: 'lt', x: previewObs.x, y: previewObs.y },
-                { type: 'rt', x: previewObs.x + previewObs.w, y: previewObs.y },
-                { type: 'lb', x: previewObs.x, y: previewObs.y + previewObs.h },
-                { type: 'rb', x: previewObs.x + previewObs.w, y: previewObs.y + previewObs.h }
-              ];
-              for (const c of corners) {
-                if (Math.abs(coords.x - c.x) < cornerSize && Math.abs(coords.y - c.y) < cornerSize) {
-                   obsDragRef.current = { type: c.type, offsetX: c.x - coords.x, offsetY: c.y - coords.y };
-                   return;
-                }
+            // ワープの選択・移動
+            for (const warp of warps) {
+              if (Math.hypot(coords.x - warp.in.x, coords.y - warp.in.y) < warpSize + 10) {
+                setSelectedIds([warp.id]);
+                dragModeRef.current = 'warp-in'; obsDragRef.current = { id: warp.id, offsetX: warp.in.x - coords.x, offsetY: warp.in.y - coords.y }; return;
               }
-              if (coords.x >= previewObs.x && coords.x <= previewObs.x + previewObs.w && coords.y >= previewObs.y && coords.y <= previewObs.y + previewObs.h) {
-                obsDragRef.current = { type: 'move', offsetX: previewObs.x - coords.x, offsetY: previewObs.y - coords.y };
-                return;
-              }
-            } else {
-              const size = 30;
-              for (const warp of warps) {
-                if (Math.hypot(coords.x - warp.in.x, coords.y - warp.in.y) < size) {
-                  setDragMode('warp-in'); obsDragRef.current = { id: warp.id, offsetX: warp.in.x - coords.x, offsetY: warp.in.y - coords.y }; return;
-                }
-                if (Math.hypot(coords.x - warp.out.x, coords.y - warp.out.y) < size) {
-                  setDragMode('warp-out'); obsDragRef.current = { id: warp.id, offsetX: warp.out.x - coords.x, offsetY: warp.out.y - coords.y }; return;
-                }
-              }
-
-              for (let i = obstacles.length - 1; i >= 0; i--) {
-                const o = obstacles[i];
-                if (coords.x >= o.x && coords.x <= o.x + o.w && coords.y >= o.y && coords.y <= o.y + o.h) {
-                  setPreviewObs({ ...o });
-                  setObstacles(obstacles.filter(obs => obs.id !== o.id));
-                  return;
-                }
-              }
-
-              if (obsType === 'block') {
-                const s = 60;
-                setPreviewObs({ id: Date.now(), x: coords.x - s/2, y: coords.y - s/2, w: s, h: s });
-              } else if (obsType === 'warp') {
-                setWarps([...warps, { id: Date.now(), in: { x: coords.x - 40, y: coords.y }, out: { x: coords.x + 40, y: coords.y }, outAngle: null }]);
-                pushHistoryDebounced();
+              if (Math.hypot(coords.x - warp.out.x, coords.y - warp.out.y) < warpSize + 10) {
+                setSelectedIds([warp.id]);
+                dragModeRef.current = 'warp-out'; obsDragRef.current = { id: warp.id, offsetX: warp.out.x - coords.x, offsetY: warp.out.y - coords.y }; return;
               }
             }
-            return;
+
+            // ブロックの四隅（サイズ変更） - 選択されているブロックのみ判定
+            const cornerSize = 24; 
+            for (const o of obstacles) {
+              if (selectedIds.includes(o.id)) {
+                const corners = [
+                  { type: 'lt', x: o.x, y: o.y }, { type: 'rt', x: o.x + o.w, y: o.y },
+                  { type: 'lb', x: o.x, y: o.y + o.h }, { type: 'rb', x: o.x + o.w, y: o.y + o.h }
+                ];
+                for (const c of corners) {
+                  if (Math.abs(coords.x - c.x) < cornerSize && Math.abs(coords.y - c.y) < cornerSize) {
+                     obsDragRef.current = { id: o.id, type: c.type, offsetX: c.x - coords.x, offsetY: c.y - coords.y }; return;
+                  }
+                }
+              }
+            }
+            
+            // ブロックの移動 (タップ判定用の座標も記録)
+            for (const o of obstacles) {
+              if (coords.x >= o.x && coords.x <= o.x + o.w && coords.y >= o.y && coords.y <= o.y + o.h) {
+                obsDragRef.current = { id: o.id, type: 'move', offsetX: o.x - coords.x, offsetY: o.y - coords.y, startX: coords.x, startY: coords.y, isTap: true }; return;
+              }
+            }
+            
+            // 何もヒットしなかった場合は選択解除
+            setSelectedIds([]);
           }
         }
 
         if (activeTab === 'aim' || activeTab === 'walls') {
-          const dist = Math.hypot(coords.x - startPoint.x, coords.y - startPoint.y);
-          if (dist < 60) {
-            setDragMode('origin');
-          } else {
-            setDragMode('angle');
-            updateAngleFromCoords(coords);
-          }
+          dragModeRef.current = 'angle';
+          updateAngleFromCoords(coords);
         }
       };
 
-      // --- Interaction Move ---
       const moveInteraction = (coords) => {
         if (!coords) return;
         
-        if (activeTab === 'obstacles') {
-          if (dragMode === 'warp-in' || dragMode === 'warp-out') {
-            const { id, offsetX, offsetY } = obsDragRef.current;
-            setWarps(prev => prev.map(w => {
-              if (w.id === id) {
-                const nx = coords.x + offsetX;
-                const ny = coords.y + offsetY;
-                return dragMode === 'warp-in' ? { ...w, in: { x: nx, y: ny } } : { ...w, out: { x: nx, y: ny } };
-              }
-              return w;
-            }));
-            return;
-          }
+        if (dragModeRef.current === 'warp-in' || dragModeRef.current === 'warp-out') {
+          const { id, offsetX, offsetY } = obsDragRef.current;
+          setWarps(prev => prev.map(w => {
+            if (w.id === id) {
+              const nx = coords.x + offsetX;
+              const ny = coords.y + offsetY;
+              return dragModeRef.current === 'warp-in' ? { ...w, in: { x: nx, y: ny } } : { ...w, out: { x: nx, y: ny } };
+            }
+            return w;
+          }));
+          return;
         }
 
-        if (previewObs && obsDragRef.current) {
-          const { type, offsetX, offsetY } = obsDragRef.current;
+        if (obsDragRef.current && obsDragRef.current.type) {
+          const { id, type, offsetX, offsetY, startX, startY } = obsDragRef.current;
           const targetX = coords.x + offsetX;
           const targetY = coords.y + offsetY;
 
           if (type === 'move') {
-            setPreviewObs(prev => ({ ...prev, x: targetX, y: targetY }));
-          } else {
-            setPreviewObs(prev => {
-              let nx = prev.x, ny = prev.y, nw = prev.w, nh = prev.h;
-
-              if (type.includes('l')) { 
-                const right = prev.x + prev.w;
-                nx = targetX; 
-                nw = right - nx; 
+            if (obsDragRef.current.isTap) {
+              const dx = Math.abs(coords.x - startX);
+              const dy = Math.abs(coords.y - startY);
+              if (dx > 5 || dy > 5) {
+                obsDragRef.current.isTap = false; // 動かしたらタップ判定を解除してドラッグに移行
               }
-              if (type.includes('r')) { 
-                nw = targetX - prev.x; 
-              }
-              if (type.includes('t')) { 
-                const bottom = prev.y + prev.h;
-                ny = targetY; 
-                nh = bottom - ny; 
-              }
-              if (type.includes('b')) { 
-                nh = targetY - prev.y; 
-              }
-
-              if (nw < 20) { if (type.includes('l')) nx = prev.x + prev.w - 20; nw = 20; }
-              if (nh < 20) { if (type.includes('t')) ny = prev.y + prev.h - 20; nh = 20; }
-              return { ...prev, x: nx, y: ny, w: nw, h: nh };
-            });
+            }
+            if (!obsDragRef.current.isTap) {
+              setObstacles(prev => prev.map(o => o.id === id ? { ...o, x: targetX, y: targetY } : o));
+            }
+            return;
           }
-        } else if (dragMode === 'origin') {
+
+          setObstacles(prev => prev.map(o => {
+            if (o.id === id) {
+              let nx = o.x, ny = o.y, nw = o.w, nh = o.h;
+              if (type.includes('l')) { const right = o.x + o.w; nx = targetX; nw = right - nx; }
+              if (type.includes('r')) { nw = targetX - o.x; }
+              if (type.includes('t')) { const bottom = o.y + o.h; ny = targetY; nh = bottom - ny; }
+              if (type.includes('b')) { nh = targetY - o.y; }
+              if (nw < 20) { if (type.includes('l')) nx = o.x + o.w - 20; nw = 20; }
+              if (nh < 20) { if (type.includes('t')) ny = o.y + o.h - 20; nh = 20; }
+              return { ...o, x: nx, y: ny, w: nw, h: nh };
+            }
+            return o;
+          }));
+          return;
+        }
+
+        if (dragModeRef.current === 'origin') {
           const clampedX = Math.max(bounds.left, Math.min(coords.x, bounds.right));
           const clampedY = Math.max(bounds.top, Math.min(coords.y, bounds.bottom));
           setStartPoint({ x: clampedX, y: clampedY });
-        } else if (dragMode === 'angle') {
+        } else if (dragModeRef.current === 'angle') {
           updateAngleFromCoords(coords);
         }
       };
 
       const handleEnd = () => {
-        if (dragMode === 'origin' || dragMode === 'angle' || dragMode === 'warp-in' || dragMode === 'warp-out') {
-          pushHistoryDebounced();
+        if (obsDragRef.current && obsDragRef.current.isTap && obsDragRef.current.type === 'move') {
+          // タップされた場合、ブロックの選択状態(四隅ハンドルの表示)をトグル
+          const hitId = obsDragRef.current.id;
+          if (activeTab === 'obstacles' && obsMode === 'edit') {
+            setSelectedIds(prev => prev.includes(hitId) ? prev.filter(id => id !== hitId) : [hitId]);
+          }
         }
-        setDragMode(null);
+
+        if (dragModeRef.current || obsDragRef.current) pushHistoryDebounced();
+        dragModeRef.current = null;
         obsDragRef.current = null;
       };
 
@@ -356,36 +338,22 @@
         setAngle(newAngle);
       };
 
-      const handleTouchStart = (e) => {
-        if (isMoveMode) return;
-        if (e.touches.length === 1) startInteraction(getCanvasCoords(e.touches[0].clientX, e.touches[0].clientY));
-        else handleEnd();
+      // Add Element Helpers
+      const addBlock = () => {
+        const newId = Date.now();
+        setObstacles([...obstacles, { id: newId, x: bounds.left + 100, y: bounds.top + 100, w: 60, h: 60 }]);
+        setSelectedIds([newId]);
+        pushHistoryDebounced();
       };
-      const handleTouchMove = (e) => {
-        if (isMoveMode) return;
-        if (e.touches.length === 1 && (dragMode || obsDragRef.current)) moveInteraction(getCanvasCoords(e.touches[0].clientX, e.touches[0].clientY));
+      const addWarp = () => {
+        const newId = Date.now();
+        setWarps([...warps, { id: newId, in: { x: bounds.left + 50, y: bounds.top + 100 }, out: { x: bounds.left + 150, y: bounds.top + 100 }, outAngle: null }]);
+        setSelectedIds([newId]);
+        pushHistoryDebounced();
       };
-      const handleMouseDown = (e) => { if (!isMoveMode) startInteraction(getCanvasCoords(e.clientX, e.clientY)); };
-      const handleMouseMove = (e) => { if (!isMoveMode && (dragMode || obsDragRef.current)) moveInteraction(getCanvasCoords(e.clientX, e.clientY)); };
 
-      useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const preventSingleTouch = (e) => {
-          if (isMoveMode) return;
-          if (e.touches.length === 1 && e.cancelable) e.preventDefault();
-        };
-        canvas.addEventListener('touchstart', preventSingleTouch, { passive: false });
-        canvas.addEventListener('touchmove', preventSingleTouch, { passive: false });
-        return () => {
-          canvas.removeEventListener('touchstart', preventSingleTouch);
-          canvas.removeEventListener('touchmove', preventSingleTouch);
-        };
-      }, [isMoveMode]);
-
-      // --- Calculate Path (軌道計算) ---
+      // --- Calculate Path ---
       const calculatePath = useCallback(() => {
-        if (!showTrajectory) return [];
         const path = [{ x: startPoint.x, y: startPoint.y, nx: 0, ny: 0, type: 'normal' }];
         let rad = angle * (Math.PI / 180);
         let vx = Math.cos(rad);
@@ -421,7 +389,6 @@
             if (vy < 0) { let t = ((obs.y + obs.h) - currentY) / vy; if (t > 0.1 && t < tMin) { let x = currentX + t * vx; if (x >= obs.x - 0.5 && x <= obs.x + obs.w + 0.5) { tMin = t; nextX = x; nextY = obs.y + obs.h; hitNormalX = 0; hitNormalY = 1; } } }
           }
 
-          const warpSize = 25;
           for (const w of warps) {
             if (usedWarpIds.has(w.id)) continue;
             const a = vx * vx + vy * vy;
@@ -455,7 +422,7 @@
           }
         }
         return path;
-      }, [startPoint, angle, wallPercents, maxBounces, canvasWidth, canvasHeight, obstacles, warps, showTrajectory]);
+      }, [startPoint, angle, wallPercents, maxBounces, canvasWidth, canvasHeight, obstacles, warps, warpSize]);
 
       // --- Render Canvas ---
       useEffect(() => {
@@ -498,38 +465,71 @@
         // 障害物
         obstacles.forEach(o => {
           const isSelected = selectedIds.includes(o.id);
-          ctx.fillStyle = isSelected ? 'rgba(239, 68, 68, 0.5)' : 'rgba(245, 158, 11, 0.4)';
-          ctx.fillRect(o.x, o.y, o.w, o.h);
-          ctx.strokeStyle = isSelected ? '#ef4444' : '#f59e0b';
-          ctx.lineWidth = 2;
-          ctx.strokeRect(o.x, o.y, o.w, o.h);
-        });
+          const isDeleteMode = isSelected && obsMode === 'delete' && activeTab === 'obstacles';
+          const isEditMode = isSelected && obsMode === 'edit' && activeTab === 'obstacles';
+          
+          let fillColor = 'rgba(245, 158, 11, 0.4)';
+          let strokeColor = '#f59e0b';
 
-        if (previewObs) {
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.4)'; ctx.fillRect(previewObs.x, previewObs.y, previewObs.w, previewObs.h);
-          ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2; ctx.setLineDash([5, 5]); ctx.strokeRect(previewObs.x, previewObs.y, previewObs.w, previewObs.h); ctx.setLineDash([]);
-          const corners = [
-            { x: previewObs.x, y: previewObs.y }, { x: previewObs.x + previewObs.w, y: previewObs.y },
-            { x: previewObs.x, y: previewObs.y + previewObs.h }, { x: previewObs.x + previewObs.w, y: previewObs.y + previewObs.h }
-          ];
-          corners.forEach(c => {
-            ctx.beginPath(); ctx.arc(c.x, c.y, 8, 0, Math.PI * 2); ctx.fillStyle = '#10b981'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
-          });
-        }
+          if (isDeleteMode) {
+            fillColor = 'rgba(239, 68, 68, 0.5)';
+            strokeColor = '#ef4444';
+          } else if (isEditMode) {
+            fillColor = 'rgba(252, 211, 77, 0.6)'; // 薄く光る色
+            strokeColor = '#fcd34d';
+          }
+
+          ctx.fillStyle = fillColor;
+          if (isEditMode) { ctx.shadowColor = strokeColor; ctx.shadowBlur = 10; }
+          ctx.fillRect(o.x, o.y, o.w, o.h);
+          ctx.shadowBlur = 0;
+
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = 2;
+          if (isEditMode) { ctx.shadowColor = strokeColor; ctx.shadowBlur = 10; }
+          ctx.strokeRect(o.x, o.y, o.w, o.h);
+          ctx.shadowBlur = 0;
+
+          // 編集中ハンドル (選択されたブロックのみ表示)
+          if (isEditMode) {
+            const corners = [
+              { x: o.x, y: o.y }, { x: o.x + o.w, y: o.y },
+              { x: o.x, y: o.y + o.h }, { x: o.x + o.w, y: o.y + o.h }
+            ];
+            corners.forEach(c => {
+              ctx.beginPath(); ctx.arc(c.x, c.y, 8, 0, Math.PI * 2); ctx.fillStyle = '#10b981'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+            });
+          }
+        });
 
         // ワープ
         warps.forEach(w => {
           const isSelected = selectedIds.includes(w.id);
-          const strokeIn = isSelected ? '#ef4444' : '#3b82f6';
-          const fillIn = isSelected ? 'rgba(239, 68, 68, 0.5)' : 'rgba(59, 130, 246, 0.4)';
-          const strokeOut = isSelected ? '#ef4444' : '#f97316';
-          const fillOut = isSelected ? 'rgba(239, 68, 68, 0.5)' : 'rgba(249, 115, 22, 0.4)';
+          const isDeleteMode = isSelected && obsMode === 'delete' && activeTab === 'obstacles';
+          const isEditMode = isSelected && obsMode === 'edit' && activeTab === 'obstacles';
+
+          let strokeIn = '#3b82f6', fillIn = 'rgba(59, 130, 246, 0.4)';
+          let strokeOut = '#f97316', fillOut = 'rgba(249, 115, 22, 0.4)';
+
+          if (isDeleteMode) {
+            strokeIn = strokeOut = '#ef4444';
+            fillIn = fillOut = 'rgba(239, 68, 68, 0.5)';
+          } else if (isEditMode) {
+            strokeIn = '#93c5fd'; fillIn = 'rgba(147, 197, 253, 0.6)'; // 薄い青
+            strokeOut = '#fdba74'; fillOut = 'rgba(253, 186, 116, 0.6)'; // 薄いオレンジ
+          }
 
           ctx.beginPath(); ctx.moveTo(w.in.x, w.in.y); ctx.lineTo(w.out.x, w.out.y);
-          ctx.strokeStyle = isSelected ? '#ef4444' : 'rgba(59, 130, 246, 0.6)'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
-          ctx.beginPath(); ctx.arc(w.in.x, w.in.y, 20, 0, Math.PI * 2); ctx.fillStyle = fillIn; ctx.fill(); ctx.strokeStyle = strokeIn; ctx.lineWidth = 2; ctx.stroke();
+          ctx.strokeStyle = isDeleteMode ? '#ef4444' : 'rgba(59, 130, 246, 0.6)'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+          
+          if (isEditMode) { ctx.shadowColor = strokeIn; ctx.shadowBlur = 10; }
+          ctx.beginPath(); ctx.arc(w.in.x, w.in.y, warpSize, 0, Math.PI * 2); ctx.fillStyle = fillIn; ctx.fill(); ctx.strokeStyle = strokeIn; ctx.lineWidth = 2; ctx.stroke();
+          ctx.shadowBlur = 0;
           ctx.fillStyle = '#fff'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('IN', w.in.x, w.in.y);
-          ctx.beginPath(); ctx.arc(w.out.x, w.out.y, 20, 0, Math.PI * 2); ctx.fillStyle = fillOut; ctx.fill(); ctx.strokeStyle = strokeOut; ctx.lineWidth = 2; ctx.stroke();
+          
+          if (isEditMode) { ctx.shadowColor = strokeOut; ctx.shadowBlur = 10; }
+          ctx.beginPath(); ctx.arc(w.out.x, w.out.y, warpSize, 0, Math.PI * 2); ctx.fillStyle = fillOut; ctx.fill(); ctx.strokeStyle = strokeOut; ctx.lineWidth = 2; ctx.stroke();
+          ctx.shadowBlur = 0;
           ctx.fillStyle = '#fff'; ctx.fillText('OUT', w.out.x, w.out.y);
         });
 
@@ -537,8 +537,8 @@
         if (lineColor === 'white') { mainColor = '#ffffff'; glowColor = 'rgba(255, 255, 255, 0.4)'; }
         else if (lineColor === 'black') { mainColor = '#000000'; glowColor = 'rgba(0, 0, 0, 0.4)'; }
 
-        // 引っ張る目安
-        if (showReverseGuide && showTrajectory) {
+        // 引っ張る目安 (showTrajectoryがオフでも独立して表示)
+        if (showReverseGuide) {
           const boundsCenter = { x: bounds.left + (bounds.right - bounds.left) / 2, y: bounds.top + (bounds.bottom - bounds.top) / 2 };
           const revRad = (angle + 180) * (Math.PI / 180);
           const revVx = Math.cos(revRad), revVy = Math.sin(revRad);
@@ -549,54 +549,55 @@
             return Math.min(tx, ty);
           };
           const d1 = distToEdge(boundsCenter.x, boundsCenter.y, -revVx, -revVy, bounds);
-          const pt1 = { x: boundsCenter.x - revVx * d1, y: boundsCenter.y - revVy * d1 }; // 正方向
+          const pt1 = { x: boundsCenter.x - revVx * d1, y: boundsCenter.y - revVy * d1 };
           const d2 = distToEdge(boundsCenter.x, boundsCenter.y, revVx, revVy, bounds);
-          const pt2 = { x: boundsCenter.x + revVx * d2, y: boundsCenter.y + revVy * d2 }; // 逆方向
+          const pt2 = { x: boundsCenter.x + revVx * d2, y: boundsCenter.y + revVy * d2 };
 
           ctx.beginPath(); ctx.moveTo(pt1.x, pt1.y); ctx.lineTo(pt2.x, pt2.y);
           ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3; ctx.stroke();
-          // ★ 赤丸を pt1 (飛んでいく方向の端) に描画するように変更
           ctx.beginPath(); ctx.arc(pt1.x, pt1.y, 5, 0, Math.PI * 2); ctx.fillStyle = '#dc2626'; ctx.fill(); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
         }
 
         // 軌道
-        const path = calculatePath();
-        if (path.length > 1) {
-          if (showBand) {
+        if (showTrajectory) {
+          const path = calculatePath();
+          if (path.length > 1) {
+            if (showBand) {
+              ctx.beginPath(); ctx.moveTo(path[0].x, path[0].y);
+              for (let i = 1; i < path.length; i++) {
+                if (path[i].type === 'warpOut') ctx.moveTo(path[i].x, path[i].y);
+                else ctx.lineTo(path[i].x, path[i].y);
+              }
+              ctx.strokeStyle = glowColor; ctx.lineWidth = 20; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+            }
+
             ctx.beginPath(); ctx.moveTo(path[0].x, path[0].y);
             for (let i = 1; i < path.length; i++) {
               if (path[i].type === 'warpOut') ctx.moveTo(path[i].x, path[i].y);
               else ctx.lineTo(path[i].x, path[i].y);
             }
-            ctx.strokeStyle = glowColor; ctx.lineWidth = 20; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+            ctx.strokeStyle = mainColor; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
           }
 
-          ctx.beginPath(); ctx.moveTo(path[0].x, path[0].y);
-          for (let i = 1; i < path.length; i++) {
-            if (path[i].type === 'warpOut') ctx.moveTo(path[i].x, path[i].y);
-            else ctx.lineTo(path[i].x, path[i].y);
-          }
-          ctx.strokeStyle = mainColor; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+          // 反射回数
+          let bounceCount = 0;
+          path.forEach((p, i) => {
+            if (i > 0 && p.type !== 'warpIn' && p.type !== 'warpOut') {
+              bounceCount++;
+              const offset = 14;
+              const textX = p.x - p.nx * offset; const textY = p.y - p.ny * offset;
+              ctx.beginPath(); ctx.arc(textX, textY, 8, 0, Math.PI * 2); ctx.fillStyle = lineColor === 'white' ? '#e2e8f0' : '#1e293b'; ctx.fill();
+              ctx.strokeStyle = mainColor; ctx.lineWidth = 1.5; ctx.stroke();
+              ctx.fillStyle = lineColor === 'white' ? '#0f172a' : '#f8fafc'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(bounceCount.toString(), textX, textY);
+            }
+          });
         }
-
-        // 反射回数
-        let bounceCount = 0;
-        path.forEach((p, i) => {
-          if (i > 0 && p.type !== 'warpIn' && p.type !== 'warpOut') {
-            bounceCount++;
-            const offset = 14;
-            const textX = p.x - p.nx * offset; const textY = p.y - p.ny * offset;
-            ctx.beginPath(); ctx.arc(textX, textY, 8, 0, Math.PI * 2); ctx.fillStyle = lineColor === 'white' ? '#e2e8f0' : '#1e293b'; ctx.fill();
-            ctx.strokeStyle = mainColor; ctx.lineWidth = 1.5; ctx.stroke();
-            ctx.fillStyle = lineColor === 'white' ? '#0f172a' : '#f8fafc'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(bounceCount.toString(), textX, textY);
-          }
-        });
 
         // スタート地点
         ctx.beginPath(); ctx.arc(startPoint.x, startPoint.y, 5, 0, Math.PI * 2); ctx.fillStyle = mainColor; ctx.fill(); ctx.strokeStyle = lineColor === 'white' ? '#000000' : '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
-        ctx.beginPath(); ctx.arc(startPoint.x, startPoint.y, 18, 0, Math.PI * 2); ctx.strokeStyle = mainColor; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+        ctx.beginPath(); ctx.arc(startPoint.x, startPoint.y, 28, 0, Math.PI * 2); ctx.strokeStyle = mainColor; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
 
-      }, [image, startPoint, angle, wallPercents, maxBounces, showReverseGuide, showBand, showTrajectory, showWallLine, lineColor, obstacles, previewObs, warps, selectedIds, viewWidth, viewHeight, calculatePath]);
+      }, [image, startPoint, angle, wallPercents, maxBounces, showReverseGuide, showBand, showTrajectory, showWallLine, lineColor, obstacles, warps, warpSize, selectedIds, viewWidth, viewHeight, calculatePath, obsMode, activeTab]);
 
       const isSmartphone = wallPercents.top === defaultWalls.top && wallPercents.bottom === defaultWalls.bottom && wallPercents.left === defaultWalls.left && wallPercents.right === defaultWalls.right;
       const isTablet = wallPercents.top === tabletWalls.top && wallPercents.bottom === tabletWalls.bottom && wallPercents.left === tabletWalls.left && wallPercents.right === tabletWalls.right;
@@ -612,92 +613,110 @@
               <div className="flex items-center bg-slate-800 rounded-lg p-0.5 border border-slate-700">
                 <button onClick={handleUndo} disabled={historyIndex <= 0} className={`p-1.5 rounded transition-colors ${historyIndex > 0 ? 'text-slate-200 active:bg-slate-700' : 'text-slate-600 cursor-not-allowed'}`}><IconUndo /></button>
                 <div className="w-[1px] h-4 bg-slate-700 mx-0.5"></div>
-                <button onClick={handleRedo} disabled={historyIndex >= history.length - 1} className={`p-1.5 rounded transition-colors ${historyIndex < history.length - 1 ? 'text-slate-200 active:bg-slate-700' : 'text-slate-600 cursor-not-allowed'}`}><IconRedo /></button>
+                <button disabled className="p-1.5 rounded transition-colors text-slate-600 cursor-not-allowed"><IconUndo style={{transform: 'scaleX(-1)'}} /></button>
               </div>
-              <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleImageUpload} />
-              <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-1 bg-teal-500/20 text-teal-400 px-3 py-1.5 rounded-full text-xs font-medium active:bg-teal-500/30 border border-teal-500/30"><IconUpload /> 画像</button>
+              <label className="flex items-center gap-1.5 bg-teal-500/20 text-teal-400 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer hover:bg-teal-500/30 transition-colors border border-teal-500/30">
+                <IconUpload /> 画像
+                <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} ref={fileInputRef} />
+              </label>
             </div>
           </header>
 
-          <main className="flex-none w-full flex items-center justify-center p-3 bg-slate-950 overflow-hidden relative" style={{ height: '45vh' }}>
-            <canvas 
-              ref={canvasRef} 
-              onTouchStart={handleTouchStart} 
-              onTouchMove={handleTouchMove} 
-              onTouchEnd={handleEnd} 
-              onTouchCancel={handleEnd} 
-              onMouseDown={handleMouseDown} 
-              onMouseMove={handleMouseMove} 
-              onMouseUp={handleEnd} 
-              onMouseLeave={handleEnd} 
-              className="cursor-crosshair rounded-md shadow-[0_0_20px_rgba(0,0,0,0.5)] bg-slate-900 border border-slate-800 w-auto h-auto max-w-full max-h-full" 
-              style={{ aspectRatio: `${viewWidth} / ${viewHeight}` }} 
-            />
-          </main>
+      <div className="relative flex-1 bg-slate-950 overflow-hidden flex items-center justify-center p-2">
+        <canvas
+          ref={canvasRef}
+          onPointerDown={(e) => {
+            if (isMoveMode) return;
+            e.target.setPointerCapture(e.pointerId);
+            startInteraction(getCanvasCoords(e.clientX, e.clientY));
+          }}
+          onPointerMove={(e) => {
+            if (isMoveMode) return;
+            if (dragModeRef.current || obsDragRef.current) {
+              moveInteraction(getCanvasCoords(e.clientX, e.clientY));
+            }
+          }}
+          onPointerUp={(e) => {
+            if (isMoveMode) return;
+            try { e.target.releasePointerCapture(e.pointerId); } catch(e){}
+            handleEnd();
+          }}
+          onPointerCancel={(e) => {
+            if (isMoveMode) return;
+            try { e.target.releasePointerCapture(e.pointerId); } catch(e){}
+            handleEnd();
+          }}
+          style={{ touchAction: isMoveMode ? 'auto' : 'none', aspectRatio: `${viewWidth} / ${viewHeight}` }}
+          className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-slate-800"
+        />
+      </div>
 
-          <div className="bg-slate-900 border-t border-slate-800 shrink-0 pb-safe flex flex-col flex-1 min-h-0">
-            <div className="flex border-b border-slate-800 shrink-0">
-              <button className={`flex-1 py-3 text-xs font-bold tracking-wider ${activeTab === 'aim' ? 'text-teal-400 border-b-2 border-teal-400 bg-slate-800/50' : 'text-slate-500'}`} onClick={() => setActiveTab('aim')}>射出設定</button>
-              <button className={`flex-1 py-3 text-xs font-bold tracking-wider ${activeTab === 'walls' ? 'text-teal-400 border-b-2 border-teal-400 bg-slate-800/50' : 'text-slate-500'}`} onClick={() => setActiveTab('walls')}>壁設定</button>
-              <button className={`flex-1 py-3 text-xs font-bold tracking-wider ${activeTab === 'obstacles' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-800/50' : 'text-slate-500'}`} onClick={() => setActiveTab('obstacles')}>障害物</button>
-              <button className={`flex-1 py-3 text-xs font-bold tracking-wider ${activeTab === 'save' ? 'text-indigo-400 border-b-2 border-indigo-400 bg-slate-800/50' : 'text-slate-500'}`} onClick={() => setActiveTab('save')}>💾 保存</button>
+      <div className="p-3 bg-slate-900 border-t border-slate-800 shrink-0 pb-safe">
+            <div className="flex border-b border-slate-800 mb-3">
+              {['aim', 'walls', 'obstacles', 'save'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 py-2 text-xs font-bold transition-colors border-b-2 flex justify-center items-center gap-1 ${activeTab === tab ? 'border-teal-400 text-teal-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+                >
+                  {tab === 'aim' && '射出設定'}
+                  {tab === 'walls' && '壁設定'}
+                  {tab === 'obstacles' && 'ギミック'}
+                  {tab === 'save' && <><IconSave /> 保存</>}
+                </button>
+              ))}
             </div>
 
-            <div className="p-4 flex-1 overflow-y-auto">
-              
+            <div className="h-[200px] overflow-y-auto pr-1">
               {activeTab === 'aim' && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-400">発射角度 (手動調整)</span>
-                    <div className="bg-slate-950 border border-slate-700 rounded px-3 py-1 font-mono text-sm">{angle.toFixed(1)}°</div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-400">発射角度 (手動調整)</span>
+                    <span className="bg-slate-800 px-2 py-1 rounded font-mono text-slate-200 border border-slate-700">{angle.toFixed(1)}°</span>
                   </div>
-                  <input type="range" min="0" max="360" step="0.1" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))} className="w-full accent-teal-500" />
-                  
-                  <div className="flex gap-2">
-                    <button onClick={() => setAngle(a => (a - 1 + 360) % 360)} className="flex-1 bg-slate-800/80 hover:bg-slate-700 py-2.5 rounded-md text-[13px] font-medium active:bg-slate-700 border border-slate-700/50">-1°</button>
-                    <button onClick={() => setAngle(a => (a - 0.1 + 360) % 360)} className="flex-1 bg-slate-800/80 hover:bg-slate-700 py-2.5 rounded-md text-[13px] font-medium active:bg-slate-700 border border-slate-700/50">-0.1°</button>
-                    <button onClick={() => setAngle(a => (a + 0.1) % 360)} className="flex-1 bg-slate-800/80 hover:bg-slate-700 py-2.5 rounded-md text-[13px] font-medium active:bg-slate-700 border border-slate-700/50">+0.1°</button>
-                    <button onClick={() => setAngle(a => (a + 1) % 360)} className="flex-1 bg-slate-800/80 hover:bg-slate-700 py-2.5 rounded-md text-[13px] font-medium active:bg-slate-700 border border-slate-700/50">+1°</button>
+                  <input type="range" min="0" max="360" step="0.1" value={angle} onChange={(e) => setAngle(parseFloat(e.target.value))} className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400" />
+                  <div className="flex justify-between gap-1">
+                    <button onClick={() => setAngle(a => (a - 1 + 360) % 360)} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold active:bg-slate-700 border border-slate-700">-1°</button>
+                    <button onClick={() => setAngle(a => (a - 0.1 + 360) % 360)} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold active:bg-slate-700 border border-slate-700">-0.1°</button>
+                    <button onClick={() => setAngle(a => (a + 0.1) % 360)} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold active:bg-slate-700 border border-slate-700">+0.1°</button>
+                    <button onClick={() => setAngle(a => (a + 1) % 360)} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold active:bg-slate-700 border border-slate-700">+1°</button>
                   </div>
-                  
-                  <div className="flex gap-1.5 sm:gap-2">
-                    <button onClick={() => setShowTrajectory(!showTrajectory)} className={`flex-1 py-2.5 rounded-md text-[11px] font-medium border ${showTrajectory ? 'bg-teal-500/20 text-teal-400 border-teal-500/50' : 'bg-slate-800/80 text-slate-400 border-slate-700/50'}`}>線 {showTrajectory ? 'ON' : 'OFF'}</button>
-                    <button onClick={() => setShowBand(!showBand)} className={`flex-1 py-2.5 rounded-md text-[11px] font-medium border ${showBand ? 'bg-teal-500/20 text-teal-400 border-teal-500/50' : 'bg-slate-800/80 text-slate-400 border-slate-700/50'}`}>幅 {showBand ? 'ON' : 'OFF'}</button>
-                    <button onClick={() => setShowReverseGuide(!showReverseGuide)} className={`flex-1 py-2.5 rounded-md text-[11px] font-medium border ${showReverseGuide ? 'bg-red-500/20 text-red-400 border-red-500/50' : 'bg-slate-800/80 text-slate-400 border-slate-700/50'}`}>目安 {showReverseGuide ? 'ON' : 'OFF'}</button>
-                    <button onClick={() => setMaxBounces((b) => (b >= 15 ? 1 : b + 1))} className="flex-[1.1] py-2.5 rounded-md text-[11px] font-medium border bg-slate-800/80 text-slate-200 border-slate-700/50">反射 {maxBounces}回</button>
-                    <button onClick={() => { const colors = ['white', 'cyan', 'black']; setLineColor(colors[(colors.indexOf(lineColor) + 1) % colors.length]); }} className="flex-1 py-2.5 rounded-md text-[11px] font-medium border bg-slate-800/80 text-slate-200 border-slate-700/50 flex items-center justify-center gap-1">
-                      {lineColor === 'white' ? '白' : lineColor === 'cyan' ? 'シアン' : '黒'}
-                      <div className={`w-1.5 h-1.5 rounded-full ${lineColor === 'cyan' ? 'bg-cyan-400' : lineColor === 'white' ? 'bg-white' : 'bg-black border border-slate-500'}`} />
+                  <div className="flex justify-between gap-1">
+                    <button onClick={() => setShowTrajectory(!showTrajectory)} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors ${showTrajectory ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>線 {showTrajectory ? 'ON' : 'OFF'}</button>
+                    <button onClick={() => setShowBand(!showBand)} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors ${showBand ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>幅 {showBand ? 'ON' : 'OFF'}</button>
+                    <button onClick={() => setShowReverseGuide(!showReverseGuide)} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors ${showReverseGuide ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>目安 {showReverseGuide ? 'ON' : 'OFF'}</button>
+                    <button onClick={() => setMaxBounces(prev => prev >= 15 ? 1 : prev + 1)} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold border border-slate-700">反射 {maxBounces}回</button>
+                    <button onClick={() => setLineColor(prev => prev === 'white' ? 'black' : prev === 'black' ? 'cyan' : 'white')} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold border border-slate-700">
+                      {lineColor === 'white' ? '白 ●' : lineColor === 'black' ? '黒 ●' : '水 ●'}
                     </button>
                   </div>
-
-                  <button onClick={() => setIsMoveMode(!isMoveMode)} className={`w-full py-3 mt-1 rounded-lg text-[13px] font-bold flex items-center justify-center gap-2 transition-colors border ${isMoveMode ? 'bg-amber-500/20 text-amber-400 border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]' : 'bg-slate-800/80 text-slate-300 border-slate-700/80 hover:bg-slate-800'}`}>
-                    <IconHand size={18} /> 画面移動モード：{isMoveMode ? 'ON (移動・ズーム可)' : 'OFF (射出可能)'}
+                  <button onClick={() => setIsMoveMode(!isMoveMode)} className={`w-full py-3 mt-2 rounded-md text-sm font-bold flex items-center justify-center gap-2 transition-colors border ${isMoveMode ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' : 'bg-slate-800 text-slate-300 border-slate-700'}`}>
+                    {isMoveMode ? <><IconLock /> 画面移動モード：ON (射出ロック中)</> : <><IconUnlock /> 画面移動モード：OFF (射出可能)</>}
                   </button>
                 </div>
               )}
 
               {activeTab === 'walls' && (
                 <div className="space-y-4">
-                  <div className="flex gap-2 pb-2 border-b border-slate-800">
-                    <button onClick={() => setWallPercents(defaultWalls)} className={`flex-1 py-1.5 rounded text-[11px] font-bold border transition-colors ${isSmartphone ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>📱 スマホ（初期）</button>
-                    <button onClick={() => setWallPercents(tabletWalls)} className={`flex-1 py-1.5 rounded text-[11px] font-bold border transition-colors ${isTablet ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>タブレット/iPad</button>
+                  <div className="flex gap-2">
+                    <button onClick={() => setWallPercents(defaultWalls)} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors ${isSmartphone ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-slate-800 text-slate-300 border-slate-700'}`}>📱 スマホ (初期)</button>
+                    <button onClick={() => setWallPercents(tabletWalls)} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors ${isTablet ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-slate-800 text-slate-300 border-slate-700'}`}>タブレット/iPad</button>
                   </div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs text-slate-400">壁の範囲設定 (%)</span>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-400">壁の範囲設定 (%)</span>
                     <div className="flex gap-2">
-                      <button onClick={() => setShowWallLine(!showWallLine)} className={`text-[10px] px-2 py-1 rounded border ${showWallLine ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-slate-800 text-slate-500 border-slate-700'}`}>枠線 {showWallLine ? 'ON' : 'OFF'}</button>
-                      <button onClick={() => setWallPercents(defaultWalls)} className="flex items-center gap-1 text-[10px] text-slate-400 bg-slate-800 px-2 py-1 rounded border border-slate-700"><IconRefresh /> リセット</button>
+                      <button onClick={() => setShowWallLine(!showWallLine)} className={`px-2 py-1 rounded border ${showWallLine ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>枠線 {showWallLine ? 'ON' : 'OFF'}</button>
+                      <button onClick={() => setWallPercents(defaultWalls)} className="px-2 py-1 bg-slate-800 text-slate-300 rounded border border-slate-700 flex items-center gap-1"><IconRefresh /> リセット</button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-4">
-                    {['top', 'bottom', 'left', 'right'].map((dir) => (
-                      <div key={dir} className="flex flex-col gap-1">
-                        <div className="flex justify-between text-[10px]">
-                          <span className="uppercase text-slate-500">{dir === 'top' ? '上' : dir === 'bottom' ? '下' : dir === 'left' ? '左' : '右'}</span>
-                          <span className="text-slate-300">{wallPercents[dir]}%</span>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                    {['top', 'bottom', 'left', 'right'].map((side) => (
+                      <div key={side}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-slate-400">{side === 'top' ? '上' : side === 'bottom' ? '下' : side === 'left' ? '左' : '右'}</span>
+                          <span className="text-slate-200 font-mono">{wallPercents[side]}%</span>
                         </div>
-                        <input type="range" min="0" max="45" step="1" value={wallPercents[dir]} onChange={(e) => setWallPercents(p => ({...p, [dir]: parseInt(e.target.value)}))} className="w-full accent-emerald-500 h-1 bg-slate-800 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:rounded-full" />
+                        <input type="range" min="0" max="40" value={wallPercents[side]} onChange={(e) => setWallPercents({...wallPercents, [side]: parseInt(e.target.value)})} className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400" />
                       </div>
                     ))}
                   </div>
@@ -706,29 +725,63 @@
 
               {activeTab === 'obstacles' && (
                 <div className="space-y-4">
-                  <div className="flex gap-2 p-1 bg-slate-950 rounded-lg border border-slate-800">
-                    <button onClick={() => setObsMode('edit')} className={`flex-1 py-2 text-xs font-bold rounded-md transition-colors ${obsMode === 'edit' ? 'bg-amber-500 text-amber-950' : 'text-slate-400'}`}>🔧 配置・編集</button>
-                    <button onClick={() => { setObsMode('delete'); setPreviewObs(null); setSelectedIds([]); }} className={`flex-1 py-2 text-xs font-bold rounded-md transition-colors ${obsMode === 'delete' ? 'bg-red-500 text-white' : 'text-slate-400'}`}>🗑️ 選択・削除</button>
+                  <div className="flex gap-2">
+                    <button onClick={() => setObsMode('edit')} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors flex items-center justify-center gap-1.5 ${obsMode === 'edit' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}><IconWrench /> 配置・編集</button>
+                    <button onClick={() => setObsMode('delete')} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors flex items-center justify-center gap-1.5 ${obsMode === 'delete' ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}`}><IconTrash /> 選択・削除</button>
                   </div>
+                  
                   {obsMode === 'edit' ? (
                     <div className="space-y-3">
                       <div className="flex gap-2">
-                        <button onClick={() => setObsType('block')} className={`flex-1 py-2 rounded text-xs border ${obsType === 'block' ? 'bg-amber-500/20 border-amber-500 text-amber-400' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>🟥 ブロック</button>
-                        <button onClick={() => setObsType('warp')} className={`flex-1 py-2 rounded text-xs border ${obsType === 'warp' ? 'bg-blue-500/20 border-blue-500 text-blue-400' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>🌀 ワープ</button>
+                         <button onClick={addBlock} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold active:bg-slate-700 border border-slate-700">＋ ブロックを追加</button>
+                         <button onClick={addWarp} className="flex-1 py-2 bg-slate-800 text-slate-300 rounded text-xs font-bold active:bg-slate-700 border border-slate-700">＋ ワープを追加</button>
                       </div>
-                      <p className="text-xs text-slate-400">画面タップで{obsType === 'block' ? 'ブロック' : 'ワープ(IN/OUT)'}を配置します。四隅をドラッグでサイズ調整できます。</p>
-                      {previewObs && (
-                        <button onClick={() => { setObstacles([...obstacles, previewObs]); setPreviewObs(null); pushHistoryDebounced(); }} className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-lg flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.4)] animate-pulse">
-                          <IconCheck /> 配置を確定する
-                        </button>
-                      )}
+
+                      <div className="mt-2 bg-slate-800/50 p-2 rounded-lg border border-slate-700">
+                        {obstacles.filter(o => selectedIds.includes(o.id)).length > 0 ? (
+                          <div className="space-y-3">
+                            <div>
+                              <div className="flex justify-between text-xs mb-2">
+                                <span className="text-slate-400">ブロックの大きさ (比率維持)</span>
+                                <span className="text-slate-200 font-mono">{Math.round(obstacles.find(o => selectedIds.includes(o.id)).w)}px</span>
+                              </div>
+                              <input type="range" min="20" max="300" value={Math.round(obstacles.find(o => selectedIds.includes(o.id)).w)} onChange={(e) => {
+                                const val = parseInt(e.target.value);
+                                setObstacles(prev => prev.map(o => {
+                                  if (selectedIds.includes(o.id)) {
+                                    const ratio = o.h / o.w;
+                                    return { ...o, w: val, h: val * ratio };
+                                  }
+                                  return o;
+                                }));
+                              }} onPointerUp={pushHistoryDebounced} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400" />
+                            </div>
+                          </div>
+                        ) : warps.filter(w => selectedIds.includes(w.id)).length > 0 ? (
+                          <div>
+                            <div className="flex justify-between text-xs mb-2">
+                              <span className="text-slate-400">ワープの大きさ (半径)</span>
+                              <span className="text-slate-200 font-mono">{warpSize}px</span>
+                            </div>
+                            <input type="range" min="10" max="60" value={warpSize} onChange={(e) => setWarpSize(parseInt(e.target.value))} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-400" />
+                          </div>
+                        ) : (
+                          <p className="text-[10px] text-slate-500 text-center py-1">画面上のギミックをタップして選択すると、<br/>ここにサイズ変更スライダーが表示されます。</p>
+                        )}
+                      </div>
+                      <p className="text-[10px] text-slate-500 mt-2">画面中央に追加された障害物をドラッグで移動・変形できます。</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       <p className="text-xs text-slate-400">消したいブロックやワープをタップして赤く選択してください。</p>
                       <div className="flex gap-2">
-                        <button onClick={() => { setObstacles(obstacles.filter(o => !selectedIds.includes(o.id))); setWarps(warps.filter(w => !selectedIds.includes(w.id))); setSelectedIds([]); pushHistoryDebounced(); }} disabled={selectedIds.length === 0} className={`flex-1 py-2 rounded text-xs font-bold transition-colors ${selectedIds.length > 0 ? 'bg-red-600 text-white active:bg-red-700' : 'bg-slate-800 text-slate-600'}`}>選択中を削除 ({selectedIds.length})</button>
-                        <button onClick={() => { setObstacles([]); setWarps([]); setSelectedIds([]); pushHistoryDebounced(); }} className="flex-1 py-2 rounded text-xs font-bold bg-slate-800 text-red-400 border border-red-900/30 active:bg-slate-700">すべて削除</button>
+                        <button onClick={() => {
+                          setObstacles(prev => prev.filter(o => !selectedIds.includes(o.id)));
+                          setWarps(prev => prev.filter(w => !selectedIds.includes(w.id)));
+                          setSelectedIds([]);
+                          pushHistoryDebounced();
+                        }} disabled={selectedIds.length === 0} className={`flex-1 py-2 rounded text-xs font-bold border transition-colors ${selectedIds.length > 0 ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-slate-800 text-slate-600 border-slate-700 cursor-not-allowed'}`}>選択中を削除 ({selectedIds.length})</button>
+                        <button onClick={() => { if(window.confirm('すべて削除しますか？')){ setObstacles([]); setWarps([]); setSelectedIds([]); pushHistoryDebounced(); } }} className="flex-1 py-2 bg-slate-800 text-red-400 rounded text-xs font-bold border border-slate-700 hover:bg-slate-700">すべて削除</button>
                       </div>
                     </div>
                   )}
@@ -737,33 +790,33 @@
 
               {activeTab === 'save' && (
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-xs text-slate-400">ステージ配置に名前を付けて保存</label>
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">ステージ配置に名前を付けて保存</label>
                     <div className="flex gap-2">
-                      <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="例：でてぃあかるステージ２" className="flex-1 bg-slate-950 border border-slate-700 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" />
-                      <button onClick={handleSaveStage} disabled={!saveName.trim()} className={`px-4 py-2 rounded text-xs font-bold flex items-center gap-1 transition-all ${saveName.trim() ? 'bg-indigo-600 text-white active:bg-indigo-700' : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'}`}><IconSave /> 保存</button>
+                      <input type="text" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="例：〇〇ステージ2" className="flex-1 bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm text-slate-200 outline-none focus:border-teal-500" />
+                      <button onClick={handleSaveStage} disabled={!saveName.trim()} className={`px-4 py-2 rounded text-xs font-bold border transition-colors flex items-center gap-1 ${saveName.trim() ? 'bg-teal-500/20 text-teal-400 border-teal-500/30' : 'bg-slate-800 text-slate-600 border-slate-700 cursor-not-allowed'}`}><IconSave /> 保存</button>
                     </div>
                   </div>
-                  <div className="pt-2 border-t border-slate-800 space-y-2">
-                    <span className="text-xs text-slate-400">保存済みリスト ({savedStages.length})</span>
-                    {savedStages.length === 0 ? (
-                      <p className="text-[11px] text-slate-500 py-4 text-center">保存された配置はありません</p>
-                    ) : (
-                      <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        {savedStages.map((stage) => (
-                          <div key={stage.id} className="flex items-center justify-between bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-2">保存済みリスト ({savedStages.length})</label>
+                    <div className="space-y-2 max-h-32 overflow-y-auto pr-1">
+                      {savedStages.length === 0 ? (
+                        <p className="text-xs text-slate-500 text-center py-4">保存された配置はありません</p>
+                      ) : (
+                        savedStages.map(stage => (
+                          <div key={stage.id} className="flex items-center justify-between bg-slate-800/50 border border-slate-700 p-2 rounded">
                             <div>
-                              <div className="text-xs font-bold text-slate-200">{stage.name}</div>
-                              <div className="text-[10px] text-slate-500">{stage.date} • ブロック:{stage.obstacles?.length || 0} / ワープ:{stage.warps?.length || 0}</div>
+                              <div className="text-sm text-slate-200 font-bold">{stage.name}</div>
+                              <div className="text-[10px] text-slate-500">{stage.date} - 障害物: {(stage.obstacles?.length||0) + (stage.warps?.length||0)}</div>
                             </div>
-                            <div className="flex gap-1.5">
-                              <button onClick={() => handleLoadStage(stage)} className="px-2.5 py-1 rounded text-[11px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 active:bg-indigo-500/30">読み込む</button>
-                              <button onClick={() => handleDeleteStage(stage.id)} className="p-1 rounded text-slate-500 hover:text-red-400 active:bg-slate-800"><IconTrash /></button>
+                            <div className="flex gap-2">
+                              <button onClick={() => handleLoadStage(stage)} className="px-3 py-1.5 bg-teal-500/20 text-teal-400 rounded text-xs font-bold border border-teal-500/30">読込</button>
+                              <button onClick={() => handleDeleteStage(stage.id)} className="p-1.5 bg-slate-800 text-slate-400 hover:text-red-400 rounded border border-slate-700"><IconTrash /></button>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    )}
+                        ))
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
