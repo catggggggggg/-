@@ -75,6 +75,7 @@
       // Refs for immediate interaction state (fixes drag bugs)
       const dragModeRef = useRef(null);
       const obsDragRef = useRef(null);
+      const activePointerIdRef = useRef(null);
 
       const canvasWidth = 390;
       const canvasHeight = 844;
@@ -212,13 +213,21 @@
           if (obsMode === 'edit') {
             // ワープの選択・移動
             for (const warp of warps) {
-              if (Math.hypot(coords.x - warp.in.x, coords.y - warp.in.y) < warpSize + 10) {
+              const distIn = Math.hypot(coords.x - warp.in.x, coords.y - warp.in.y);
+              const distOut = Math.hypot(coords.x - warp.out.x, coords.y - warp.out.y);
+              const threshold = warpSize + 10;
+
+              if (distIn < threshold || distOut < threshold) {
                 setSelectedIds([warp.id]);
-                dragModeRef.current = 'warp-in'; obsDragRef.current = { id: warp.id, offsetX: warp.in.x - coords.x, offsetY: warp.in.y - coords.y }; return;
-              }
-              if (Math.hypot(coords.x - warp.out.x, coords.y - warp.out.y) < warpSize + 10) {
-                setSelectedIds([warp.id]);
-                dragModeRef.current = 'warp-out'; obsDragRef.current = { id: warp.id, offsetX: warp.out.x - coords.x, offsetY: warp.out.y - coords.y }; return;
+                // より近い方を確実に掴む。全く同じ距離(重なっている)場合はOUTを優先して引き剥がせるようにする
+                if (distIn < distOut) {
+                  dragModeRef.current = 'warp-in'; 
+                  obsDragRef.current = { id: warp.id, offsetX: warp.in.x - coords.x, offsetY: warp.in.y - coords.y }; 
+                } else {
+                  dragModeRef.current = 'warp-out'; 
+                  obsDragRef.current = { id: warp.id, offsetX: warp.out.x - coords.x, offsetY: warp.out.y - coords.y }; 
+                }
+                return;
               }
             }
 
@@ -259,13 +268,24 @@
       const moveInteraction = (coords) => {
         if (!coords) return;
         
-        if (dragModeRef.current === 'warp-in' || dragModeRef.current === 'warp-out') {
+        // IN側の移動処理（OUT側には絶対に干渉しない構造に変更）
+        if (dragModeRef.current === 'warp-in') {
           const { id, offsetX, offsetY } = obsDragRef.current;
           setWarps(prev => prev.map(w => {
             if (w.id === id) {
-              const nx = coords.x + offsetX;
-              const ny = coords.y + offsetY;
-              return dragModeRef.current === 'warp-in' ? { ...w, in: { x: nx, y: ny } } : { ...w, out: { x: nx, y: ny } };
+              return { ...w, in: { x: coords.x + offsetX, y: coords.y + offsetY } };
+            }
+            return w;
+          }));
+          return;
+        }
+
+        // OUT側の移動処理（IN側には絶対に干渉しない構造に変更）
+        if (dragModeRef.current === 'warp-out') {
+          const { id, offsetX, offsetY } = obsDragRef.current;
+          setWarps(prev => prev.map(w => {
+            if (w.id === id) {
+              return { ...w, out: { x: coords.x + offsetX, y: coords.y + offsetY } };
             }
             return w;
           }));
@@ -627,24 +647,34 @@
           ref={canvasRef}
           onPointerDown={(e) => {
             if (isMoveMode) return;
+            // 既に別の指で操作中なら完全に無視（安全対策強化）
+            if (activePointerIdRef.current !== null && activePointerIdRef.current !== e.pointerId) return; 
+            activePointerIdRef.current = e.pointerId;
             e.target.setPointerCapture(e.pointerId);
             startInteraction(getCanvasCoords(e.clientX, e.clientY));
           }}
           onPointerMove={(e) => {
             if (isMoveMode) return;
+            if (activePointerIdRef.current !== e.pointerId) return; // 自分の指以外は無視
             if (dragModeRef.current || obsDragRef.current) {
               moveInteraction(getCanvasCoords(e.clientX, e.clientY));
             }
           }}
           onPointerUp={(e) => {
             if (isMoveMode) return;
-            try { e.target.releasePointerCapture(e.pointerId); } catch(e){}
-            handleEnd();
+            if (activePointerIdRef.current === e.pointerId) {
+              try { e.target.releasePointerCapture(e.pointerId); } catch(e){}
+              handleEnd();
+              activePointerIdRef.current = null;
+            }
           }}
           onPointerCancel={(e) => {
             if (isMoveMode) return;
-            try { e.target.releasePointerCapture(e.pointerId); } catch(e){}
-            handleEnd();
+            if (activePointerIdRef.current === e.pointerId) {
+              try { e.target.releasePointerCapture(e.pointerId); } catch(e){}
+              handleEnd();
+              activePointerIdRef.current = null;
+            }
           }}
           style={{ touchAction: isMoveMode ? 'auto' : 'none', aspectRatio: `${viewWidth} / ${viewHeight}` }}
           className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-slate-800"
